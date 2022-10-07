@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PartyMember
+{
+    Yua,
+    Logan,
+    Dan,
+    Jim,
+}
+
 public class StatManager : MonoBehaviour
 {
+    public PartyMember playerCharacter;
     public int STR;
     public int DEX;
     public int INT;
