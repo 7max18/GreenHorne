@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        else if (Input.GetKeyDown(KeyCode.C) && !talking)
         {
             if (!menuManager.gameObject.activeSelf)
             {
