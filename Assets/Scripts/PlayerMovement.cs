@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     private NPC talkingTo;
     private bool talking;
 
+    public MenuManager menuManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +58,20 @@ public class PlayerMovement : MonoBehaviour
                     rb.constraints = RigidbodyConstraints2D.None;
                     dialogueBox.gameObject.SetActive(false);
                 }
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (!menuManager.gameObject.activeSelf)
+            {
+                rb.constraints = RigidbodyConstraints2D.FreezePosition;
+                rb.velocity = Vector2.zero;
+                menuManager.gameObject.SetActive(true);
+            }
+            else
+            {
+                rb.constraints = RigidbodyConstraints2D.None;
+                menuManager.gameObject.SetActive(false);
             }
         }
     }
