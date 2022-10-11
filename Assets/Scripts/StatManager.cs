@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum PartyMember
 {
+    None,
     Yua,
     Logan,
     Dan,

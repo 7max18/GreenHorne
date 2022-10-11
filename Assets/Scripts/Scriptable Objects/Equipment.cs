@@ -22,4 +22,5 @@ public class Equipment : ScriptableObject
     public string otherEffects;
     [TextArea(3, 5)]
     public string description;
+    public PartyMember equippedBy;
 }
