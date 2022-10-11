@@ -23,16 +23,4 @@ public class StatManager : MonoBehaviour
     public Equipment weapon;
     public Equipment armor;
     public Equipment trinket;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

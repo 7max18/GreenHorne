@@ -17,10 +17,12 @@ public class Equipment : ScriptableObject
     public int dexEffect;
     public int intEffect;
     public int wisEffect;
-    public int chrEffect;
+    public int chaEffect;
     public int conEffect;
     public string otherEffects;
     [TextArea(3, 5)]
     public string description;
-    public PartyMember equippedBy;
+    public StatManager equippedBy;
 }
+
+//Note: who's equipping what will have to be saved to a file at some point.

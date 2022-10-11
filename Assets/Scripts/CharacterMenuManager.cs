@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class CharacterMenuManager : MonoBehaviour
 {
     public StatManager selectedChar;
+    public StatManager defaultSelectedChar;
 
     public Image infoPanel;
 
@@ -25,15 +26,9 @@ public class CharacterMenuManager : MonoBehaviour
     public TextMeshProUGUI trinket;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        DisplayStats(selectedChar);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        DisplayStats(defaultSelectedChar);
     }
 
     public void DisplayStats(StatManager character)
