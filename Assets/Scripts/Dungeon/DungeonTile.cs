@@ -69,10 +69,13 @@ public class DungeonTile : MonoBehaviour
                 var cubePosOffset = new Vector3Int(x, y, z);
 
                 Vector3Int cell = CubeToUnityCell(centerCubePos + cubePosOffset);
-
-                if (Physics2D.OverlapCircle(layout.CellToWorld(cell), 0.01f, LayerMask.GetMask("Dungeon")))
+                Collider2D tile = Physics2D.OverlapCircle(layout.CellToWorld(cell), 0.01f, LayerMask.GetMask("Dungeon"));
+                if (tile)
                 {
-                    result.Add(cell);
+                    if (!tile.GetComponent<DungeonTile>().isObstacle)
+                    {
+                        result.Add(cell);
+                    }
                 }
             }
         }

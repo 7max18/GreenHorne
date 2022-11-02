@@ -1,71 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Net;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using System.Linq;
+using System;
+using UnityEngine.Tilemaps;
 
-//Adapted from https://forum.unity.com/threads/hexagonal-tilemap-movement-issue-using-new-tilemap-system.657373/ and
-//https://github.com/Unity-Technologies/2d-extras/issues/69
-public class DungeonMovement : MonoBehaviour
+public class Pathfinder : MonoBehaviour
 {
+    public DungeonTile currentTile;
+    protected DungeonTile endPoint;
+    protected List<Vector3Int> reachableTiles = new List<Vector3Int>();
+    public int sightRadius;
+    public int moveRadius;
     public Tilemap hexagon;
     public DungeonTile startingTile;
-    private DungeonTile currentTile;
-    private DungeonTile endPoint;
-    public int moveRadius;
     public Tilemap dungeonLayout;
-    private List<Vector3Int> reachableTiles = new List<Vector3Int>();
-    public Tile movableIndicator;
-    private bool walking;
-    void Start()
-    {
-        transform.position = startingTile.gameObject.transform.position;
-        currentTile = startingTile;
-        GetReachableTiles();
-    }
-    void Update()
-    {
-        if (Input.GetMouseButtonUp(0) && !walking)
-        {
-            Vector3 clicked = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            clicked.z = 0;
+    protected bool walking;
+    public TurnManager turnManager;
+    [HideInInspector]
+    public Action onTurn;
 
-            if (hexagon.HasTile(hexagon.WorldToCell(clicked)))
-            {
-                ClearTiles();
-                walking = true;
-
-                RaycastHit2D raycastHit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, LayerMask.GetMask("Dungeon"));
-                endPoint = raycastHit.transform.gameObject.GetComponent<DungeonTile>();
-
-                StartCoroutine(Walk(AStar(currentTile, endPoint)));
-            }
-        }
-
-    }
-
-    void ClearTiles()
-    {
-        foreach (Vector3Int tile in reachableTiles)
-        {
-            hexagon.SetTile(tile, null);
-        }
-    }
-    void GetReachableTiles()
+    protected void GetReachableTiles()
     {
         reachableTiles = currentTile.GetNeighbors(currentTile.position, moveRadius);
-        foreach (Vector3Int tile in reachableTiles)
-        {
-            hexagon.SetTile(tile, movableIndicator);
-        }
     }
 
     //Code from https://blog.theknightsofunity.com/pathfinding-on-a-hexagonal-grid-a-algorithm/
     /// <summary>
     /// Finds path from given start point to end point. Returns an empty list if the path couldn't be found.
     /// </summary>
-    List<DungeonTile> AStar(DungeonTile start, DungeonTile goal)
+    protected List<DungeonTile> AStar(DungeonTile start, DungeonTile goal)
     {
         List<DungeonTile> openPathTiles = new List<DungeonTile>();
         List<DungeonTile> closedPathTiles = new List<DungeonTile>();
@@ -157,16 +122,17 @@ public class DungeonMovement : MonoBehaviour
         return Mathf.Max(Mathf.Abs(startPosition.z - targetPosition.z), Mathf.Max(Mathf.Abs(startPosition.x - targetPosition.x), Mathf.Abs(startPosition.y - targetPosition.y)));
     }
 
-    IEnumerator Walk(List<DungeonTile> path)
+    protected IEnumerator Walk(Action callback, List<DungeonTile> path)
     {
+        path.RemoveAt(0);
+        walking = true;
         for (int i = 0; i < path.Count; i++)
         {
             transform.position = path[i].gameObject.transform.position;
             yield return new WaitForSeconds(1.0f);
         }
-
-        currentTile = endPoint;
-        GetReachableTiles();
+        currentTile = path[path.Count - 1];
+        callback();
         walking = false;
     }
 }
