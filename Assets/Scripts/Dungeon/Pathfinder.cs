@@ -11,7 +11,6 @@ public class Pathfinder : MonoBehaviour
     public DungeonTile currentTile;
     protected DungeonTile endPoint;
     protected List<Vector3Int> reachableTiles = new List<Vector3Int>();
-    public int sightRadius;
     public int moveRadius;
     public Tilemap hexagon;
     public DungeonTile startingTile;

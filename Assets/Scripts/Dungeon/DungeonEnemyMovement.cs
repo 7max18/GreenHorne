@@ -5,9 +5,11 @@ using UnityEngine;
 public class DungeonEnemyMovement : Pathfinder
 {
     private DungeonPlayerMovement player;
+    public int sightRadius;
     // Start is called before the first frame update
     void Start()
     {
+        GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         transform.position = startingTile.gameObject.transform.position;
         currentTile = startingTile;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<DungeonPlayerMovement>();
@@ -41,8 +43,7 @@ public class DungeonEnemyMovement : Pathfinder
     void NextTurn()
     {
         currentTile.isObstacle = true;
-
-        if (currentTile = player.currentTile)
+        if (ReferenceEquals(currentTile, player.currentTile))
         {
             //Launch battle
             Debug.Log("Battle start!");

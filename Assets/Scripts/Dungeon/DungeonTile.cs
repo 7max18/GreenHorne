@@ -38,6 +38,7 @@ public class DungeonTile : MonoBehaviour
 
     private void Awake()
     {
+        GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         layout = transform.parent.GetComponent<Tilemap>();
         position = layout.WorldToCell(transform.position);
         foreach (Vector3Int cell in GetNeighbors(position, 1))

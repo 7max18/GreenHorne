@@ -9,9 +9,12 @@ using UnityEngine.Tilemaps;
 public class DungeonPlayerMovement : Pathfinder
 {
     public Tile movableIndicator;
+    public GameObject vision;
     
     void Start()
     {
+        vision = GetComponentInChildren<SpriteMask>().gameObject;
+        vision.transform.localScale = Vector3.one * (2 + 3 * moveRadius);
         transform.position = startingTile.gameObject.transform.position;
         currentTile = startingTile;
         onTurn = SetReachableTiles;
