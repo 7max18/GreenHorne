@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -73,6 +74,11 @@ public class PlayerMovement : MonoBehaviour
                 rb.constraints = RigidbodyConstraints2D.None;
                 menuManager.gameObject.SetActive(false);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene(2);
         }
     }
 

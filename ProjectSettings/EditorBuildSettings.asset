@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BasicOverworld.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Dungeon.unity
+    guid: 38f1e357dedd4df409168275fdcbd43d
+  - enabled: 1
+    path: Assets/Scenes/Battle.unity
+    guid: 8c53155ee61a5224fa8d770543a627ce
   m_configObjects: {}
