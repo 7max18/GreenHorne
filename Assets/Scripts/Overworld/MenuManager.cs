@@ -38,6 +38,7 @@ public class MenuManager : MonoBehaviour
         }
 
         tabIndex = index;
+
         for (int i = 0; i < tabs.Length; i++)
         {
             if (i == tabIndex)

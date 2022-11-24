@@ -11,6 +11,14 @@ public enum PartyMember
     Jim,
 }
 
+public enum CharacterClass
+{
+    None,
+    Melee,
+    Magic,
+    Ranger,
+}
+
 public class StatManager : MonoBehaviour
 {
     public PartyMember playerCharacter;
@@ -23,4 +31,6 @@ public class StatManager : MonoBehaviour
     public Equipment weapon;
     public Equipment armor;
     public Equipment trinket;
+    public CharacterClass characterClass;
+    public CardType[] cards = new CardType[5];
 }

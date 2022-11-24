@@ -11,7 +11,7 @@ public class Drawer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rt = GetComponent<RectTransform>();
+        transform.position = closedPos.position;
     }
 
     // Update is called once per frame
