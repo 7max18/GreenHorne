@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
+using Unity.VisualScripting;
+
 public enum CardType
 {
     Heavy = 0,
@@ -16,16 +19,22 @@ public enum AttackType
     INT,
 }
 
-public class Card : MonoBehaviour
+public class Card : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public CardType cardType;
     public PartyMember equippedBy;
     public AttackType attackType;
     public TextMeshProUGUI attackTypeText;
+    private RectTransform rt;
+    private Canvas canvas;
+    private CanvasGroup cg;
     // Start is called before the first frame update
     void Start()
     {
         //Use equippedBy to determine character picture
+        canvas = transform.parent.parent.parent.GetComponent<Canvas>();
+        rt = GetComponent<RectTransform>();
+        cg = GetComponent<CanvasGroup>();
 
         switch (attackType)
         {
@@ -44,6 +53,31 @@ public class Card : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        cg.blocksRaycasts = false;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        rt.anchoredPosition += eventData.delta / canvas.scaleFactor;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        cg.blocksRaycasts = true;
+
+        if (eventData.pointerEnter.GetComponent<DrawerCardSlot>() == null)
+        {
+            transform.position = transform.parent.position;
+        }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+
     }
 }
