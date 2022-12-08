@@ -28,6 +28,7 @@ public class Card : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     private RectTransform rt;
     private Canvas canvas;
     private CanvasGroup cg;
+    public HandSlot[] hand = new HandSlot[5];
     // Start is called before the first frame update
     void Start()
     {
@@ -70,9 +71,30 @@ public class Card : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     {
         cg.blocksRaycasts = true;
 
-        if (eventData.pointerEnter.GetComponent<DrawerCardSlot>() == null)
+        if (!eventData.pointerEnter.GetComponent<DrawerCardSlot>())
         {
+            if (!transform.parent.GetComponent<HandSlot>())
+            {
+                for (int i = 0; i < hand.Length; i++)
+                {
+                    if (!hand[i].hasCard)
+                    {
+                        transform.SetParent(hand[i].transform);
+                        hand[i].hasCard = true;
+                        break;
+                    }
+                }
+            }
+
             transform.position = transform.parent.position;
+        }
+        else
+        {
+            if (transform.parent.GetComponent<HandSlot>())
+            {
+                transform.parent.GetComponent<HandSlot>().hasCard = false;
+            }
+            transform.SetParent(eventData.pointerEnter.transform);
         }
     }
 

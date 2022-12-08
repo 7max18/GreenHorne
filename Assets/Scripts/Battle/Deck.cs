@@ -22,12 +22,14 @@ public class Deck : MonoBehaviour
     public GameObject heavyCard;
     public GameObject finesseCard;
     public GameObject collabCard;
-    public Transform[] cardPositions = new Transform[5];
-    public int drawSlotIndex;
+    public HandSlot[] hand = new HandSlot[5];
+    public Transform extraCardSlot;
+    //public int drawSlotIndex;
     public int cardsDrawn;
     private List<PartyMember> characters = Enum.GetValues(typeof(PartyMember)).Cast<PartyMember>().ToList();
     private List<CardInfo> cards = new List<CardInfo>();
     private static System.Random rng = new System.Random();
+    private bool drawnForTurn;
     void Start()
     {
         GetCardPool();
@@ -65,54 +67,67 @@ public class Deck : MonoBehaviour
         }
     }
 
-    public void DrawCard()
+    public void DrawCards()
     {
-        if (drawSlotIndex < 5)
+        if (!drawnForTurn)
         {
-            CardInfo drawnCard = cards[cardsDrawn];
-            StatManager characterStats = null;
-            switch (drawnCard.equippedBy)
+            CardInfo drawnCard; 
+
+            for (int i = 0; i < 5; i++)
             {
-                case PartyMember.Yua:
-                    characterStats = GameObject.FindGameObjectWithTag("Yua").GetComponent<StatManager>();
-                    break;
-                case PartyMember.Logan:
-                    characterStats = GameObject.FindGameObjectWithTag("Logan").GetComponent<StatManager>();
-                    break;
-                case PartyMember.Dan:
-                    characterStats = GameObject.FindGameObjectWithTag("Dan").GetComponent<StatManager>();
-                    break;
-                case PartyMember.Jim:
-                    characterStats = GameObject.FindGameObjectWithTag("Jim").GetComponent<StatManager>();
-                    break;
+                if (!hand[i].hasCard)
+                {
+                    drawnCard = cards[0];
+                    CreateCard(drawnCard, hand[i].transform);
+                    hand[i].hasCard = true;
+                }
             }
 
-            CreateCard(characterStats, drawnCard.cardNumber);
-            drawSlotIndex++;
-            cardsDrawn++;
+            drawnCard = cards[rng.Next(cards.Count)];
+            CreateCard(drawnCard, extraCardSlot);
+
+            drawnForTurn = true;
         }
     }
 
-    private void CreateCard(StatManager character, int i)
+    private void CreateCard(CardInfo drawnCard, Transform location)
     {
+        StatManager characterStats = null;
+
+        switch (drawnCard.equippedBy)
+        {
+            case PartyMember.Yua:
+                characterStats = GameObject.FindGameObjectWithTag("Yua").GetComponent<StatManager>();
+                break;
+            case PartyMember.Logan:
+                characterStats = GameObject.FindGameObjectWithTag("Logan").GetComponent<StatManager>();
+                break;
+            case PartyMember.Dan:
+                characterStats = GameObject.FindGameObjectWithTag("Dan").GetComponent<StatManager>();
+                break;
+            case PartyMember.Jim:
+                characterStats = GameObject.FindGameObjectWithTag("Jim").GetComponent<StatManager>();
+                break;
+        }
+
         GameObject newCard = null;
 
-        switch (character.cards[i])
+        switch (characterStats.cards[drawnCard.cardNumber])
         {
             case CardType.Heavy:
-                newCard = Instantiate(heavyCard, cardPositions[drawSlotIndex]);
+                newCard = Instantiate(heavyCard, location);
                 break;
             case CardType.Finesse:
-                newCard = Instantiate(finesseCard, cardPositions[drawSlotIndex]);
+                newCard = Instantiate(finesseCard, location);
                 break;
             case CardType.Collab:
-                newCard = Instantiate(collabCard, cardPositions[drawSlotIndex]);
+                newCard = Instantiate(collabCard, location);
                 break;
         }
 
         Card cardData = newCard.GetComponent<Card>();
 
-        switch (character.characterClass)
+        switch (characterStats.characterClass)
         {
             case CharacterClass.Melee:
                 cardData.attackType = AttackType.STR;
@@ -125,6 +140,9 @@ public class Deck : MonoBehaviour
                 break;
         }
 
-        cardData.equippedBy = character.playerCharacter;
+        cardData.equippedBy = characterStats.playerCharacter;
+        cardData.hand = hand;
+
+        cards.Remove(drawnCard);
     }
 }
