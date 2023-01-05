@@ -20,7 +20,7 @@ public class Drawer : MonoBehaviour
         
     }
 
-    void OpenOrClose()
+    public void OpenOrClose()
     {
         if (open)
         {

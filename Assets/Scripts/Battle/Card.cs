@@ -29,6 +29,7 @@ public class Card : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     private Canvas canvas;
     private CanvasGroup cg;
     public HandSlot[] hand = new HandSlot[5];
+    public BattleManager battleManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +37,7 @@ public class Card : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
         canvas = transform.parent.parent.parent.GetComponent<Canvas>();
         rt = GetComponent<RectTransform>();
         cg = GetComponent<CanvasGroup>();
+        battleManager = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
 
         switch (attackType)
         {
@@ -96,6 +98,8 @@ public class Card : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
             }
             transform.SetParent(eventData.pointerEnter.transform);
         }
+
+        battleManager.CheckIfReady();
     }
 
     public void OnPointerDown(PointerEventData eventData)

@@ -24,7 +24,6 @@ public class Deck : MonoBehaviour
     public GameObject collabCard;
     public HandSlot[] hand = new HandSlot[5];
     public Transform extraCardSlot;
-    //public int drawSlotIndex;
     public int cardsDrawn;
     private List<PartyMember> characters = Enum.GetValues(typeof(PartyMember)).Cast<PartyMember>().ToList();
     private List<CardInfo> cards = new List<CardInfo>();
