@@ -8,6 +8,7 @@ public class BattleManager : MonoBehaviour
     public List<DrawerCardSlot> cardSlots = new List<DrawerCardSlot>();
     public GameObject goButton;
     public Drawer drawer;
+    public Deck deck;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,13 +39,23 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("False");
             goButton.SetActive(false);
         }
     }
 
     public void LaunchAttack()
     {
+        for (int i = 0; i < cardSlots.Count; i++)
+        {
+            if (cardSlots[i].gameObject.activeSelf)
+            {
+                GameObject usedCard = cardSlots[i].transform.GetChild(0).gameObject;
+                deck.cards.Add(usedCard.GetComponent<Card>().info);
+                Destroy(usedCard);
+            }
+        }
+        goButton.SetActive(false);
         drawer.OpenOrClose();
+        deck.drawnForTurn = false;
     }
 }

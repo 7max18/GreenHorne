@@ -19,6 +19,19 @@ public enum AttackType
     INT,
 }
 
+[SerializeField]
+public class CardInfo
+{
+    public PartyMember equippedBy;
+    public int cardNumber;
+
+    public CardInfo(PartyMember character, int num)
+    {
+        equippedBy = character;
+        cardNumber = num;
+    }
+}
+
 public class Card : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public CardType cardType;
@@ -30,6 +43,7 @@ public class Card : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     private CanvasGroup cg;
     public HandSlot[] hand = new HandSlot[5];
     public BattleManager battleManager;
+    public CardInfo info;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +52,7 @@ public class Card : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
         rt = GetComponent<RectTransform>();
         cg = GetComponent<CanvasGroup>();
         battleManager = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
+        equippedBy = info.equippedBy;
 
         switch (attackType)
         {

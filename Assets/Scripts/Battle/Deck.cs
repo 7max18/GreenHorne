@@ -5,18 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-[System.Serializable]
-public class CardInfo
-{
-    public PartyMember equippedBy;
-    public int cardNumber;
 
-    public CardInfo(PartyMember character, int num)
-    {
-        equippedBy = character;
-        cardNumber = num;
-    }
-}
 public class Deck : MonoBehaviour
 {
     public GameObject heavyCard;
@@ -24,11 +13,11 @@ public class Deck : MonoBehaviour
     public GameObject collabCard;
     public HandSlot[] hand = new HandSlot[5];
     public Transform extraCardSlot;
-    public int cardsDrawn;
     private List<PartyMember> characters = Enum.GetValues(typeof(PartyMember)).Cast<PartyMember>().ToList();
-    private List<CardInfo> cards = new List<CardInfo>();
+    public List<CardInfo> cards = new List<CardInfo>();
     private static System.Random rng = new System.Random();
-    private bool drawnForTurn;
+    [HideInInspector]
+    public bool drawnForTurn;
     void Start()
     {
         GetCardPool();
@@ -139,7 +128,7 @@ public class Deck : MonoBehaviour
                 break;
         }
 
-        cardData.equippedBy = characterStats.playerCharacter;
+        cardData.info = drawnCard;
         cardData.hand = hand;
 
         cards.Remove(drawnCard);
