@@ -1222,7 +1222,7 @@ GameObject:
   - component: {fileID: 578415616}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2129,6 +2129,7 @@ MonoBehaviour:
   goButton: {fileID: 1842936049}
   drawer: {fileID: 1349650237}
   deck: {fileID: 138078100}
+  enemies: []
 --- !u!1001 &1487229534
 PrefabInstance:
   m_ObjectHideFlags: 0
