@@ -10,6 +10,9 @@ scopes = {
 	"last_search.8C24D059" = "character"
 	"OpenInspectorPreview.8C24D059" = "0"
 	"currentGroup.8C24D059" = "all"
+	"last_search.7788661B" = "Resources/unity_builtin_extra"
+	"OpenInspectorPreview.7788661B" = "0"
+	"currentGroup.7788661B" = "asset"
 }
 providers = {
 	adb = {
@@ -56,6 +59,7 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"Resources/unity_builtin_extra"
 ]
 searchItemFavorites = [
 ]

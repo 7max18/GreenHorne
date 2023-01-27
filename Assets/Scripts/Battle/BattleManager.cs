@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,8 @@ public class BattleManager : MonoBehaviour
     public Drawer drawer;
     public Deck deck;
     public List<BattleEnemy> enemies = new List<BattleEnemy>();
+    public Slider collabMeter;
+    public Slider finesseMeter;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +57,8 @@ public class BattleManager : MonoBehaviour
         goButton.SetActive(false);
         drawer.OpenOrClose();
 
+        List<Card> usedCards = new List<Card>();
+
         for (int i = 0; i < cardSlots.Count; i++)
         {
             if (cardSlots[i].gameObject.activeSelf)
@@ -64,10 +69,17 @@ public class BattleManager : MonoBehaviour
                 Attack(cardData);
 
                 deck.cards.Add(cardData.info);
-                Destroy(usedCard);
+                usedCards.Add(cardData);
             }
         }
-        
+
+        CheckForMatch(usedCards);
+
+        for (int i = 0; i < usedCards.Count; i++)
+        {
+            Destroy(usedCards[i].gameObject);
+        }
+
         deck.drawnForTurn = false;
     }
 
@@ -122,5 +134,29 @@ public class BattleManager : MonoBehaviour
         {
             enemies[i].HP -= damage;
         }
+    }
+
+    private void CheckForMatch(List<Card> cards)
+    {
+        CardType matchCondition = cards[0].cardType;
+
+        for (int i = 1; i < cards.Count; i++)
+        {
+            if (cards[i].cardType != matchCondition)
+            {
+                return;
+            }
+        }
+
+        if (matchCondition == CardType.Finesse)
+        {
+            finesseMeter.value += 0.25f;
+        }
+        else if (matchCondition == CardType.Collab)
+        {
+            collabMeter.value += 0.25f;
+        }
+
+        return;
     }
 }
