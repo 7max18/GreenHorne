@@ -11,8 +11,15 @@ public class BattleManager : MonoBehaviour
     public Drawer drawer;
     public Deck deck;
     public List<BattleEnemy> enemies = new List<BattleEnemy>();
+    public Slider yuaHP;
+    public Slider loganHP;
+    public Slider danHP;
+    public Slider jimHP;
+    public Slider yuaFinesseMeter;
+    public Slider loganFinesseMeter;
+    public Slider danFinesseMeter;
+    public Slider jimFinesseMeter;
     public Slider collabMeter;
-    public Slider finesseMeter;
     // Start is called before the first frame update
     void Start()
     {
@@ -150,7 +157,24 @@ public class BattleManager : MonoBehaviour
 
         if (matchCondition == CardType.Finesse)
         {
-            finesseMeter.value += 0.25f;
+            foreach (Card card in cards)
+            {
+                switch (card.equippedBy)
+                {
+                    case PartyMember.Yua:
+                        yuaFinesseMeter.value += 0.25f;
+                        break;
+                    case PartyMember.Logan:
+                        loganFinesseMeter.value += 0.25f;
+                        break;
+                    case PartyMember.Dan:
+                        danFinesseMeter.value += 0.25f;
+                        break;
+                    case PartyMember.Jim:
+                        jimFinesseMeter.value += 0.25f;
+                        break;
+                }
+            }
         }
         else if (matchCondition == CardType.Collab)
         {

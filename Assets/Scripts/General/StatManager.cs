@@ -22,6 +22,8 @@ public enum CharacterClass
 public class StatManager : MonoBehaviour
 {
     public PartyMember playerCharacter;
+    public int HP = 100;
+    public int maxHP = 100;
     public int STR;
     public int DEX;
     public int INT;
